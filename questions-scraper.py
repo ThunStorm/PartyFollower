@@ -1,7 +1,5 @@
-import argparse
 import requests
 import json
-import os.path
 from termcolor import colored
 
 QB_URL = "https://hezuo.btime.com/question/getquestion?page="
