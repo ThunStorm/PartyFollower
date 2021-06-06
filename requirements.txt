@@ -1,5 +1,5 @@
 requests==2.22.0
-requests-html==0.10.0
 selenium==3.141.0
+schedule==1.1.0
 termcolor==1.1.0
 prettytable==2.1.0

@@ -130,9 +130,8 @@ if __name__ == '__main__':
                           .format(args.phone_number, args.rounds, args.interval_sec), "green"))
             challenger = QuizChallenger(args.phone_number, args.interval_sec, args.rounds)
             print(colored("Quiz Challenger is starting...", "yellow"))
-            if not args.daily_challenge:
+            if args.daily_challenge:
                 print(colored("Quiz Challenger runs at {} every day".format(args.time), "yellow"))
-                # schedule.every(3).minutes.do(challenger.run)
                 schedule.every().day.at(args.time).do(challenger.run)
                 while True:
                     schedule.run_pending()
