@@ -5,6 +5,7 @@ import time
 import requests
 import json
 
+import schedule
 from prettytable import PrettyTable
 from termcolor import colored
 
@@ -29,6 +30,7 @@ HEADERS = {
     "Connection": "keep-alive",
     "Referer": "https://h5.btime.com/"
 }
+
 
 class QuizChallenger():
     def __init__(self, phone_number, interval_sec, rounds):
@@ -59,7 +61,7 @@ class QuizChallenger():
             print(colored("Error in Request for questions!", "red"))
 
     def check_answers(self):
-        with open(BASE_DIR+"/question_bank.json", "r", encoding="utf-8") as f:
+        with open(BASE_DIR + "/question_bank.json", "r", encoding="utf-8") as f:
             question_bank = json.load(f)
             for q_id in self.question_id:
                 self.question_answers.append(question_bank[int(q_id) - 1]['correct'])
@@ -102,20 +104,23 @@ class QuizChallenger():
 
     def run(self):
         for i in range(self.rounds):
-            print(colored("Round {} starting...".format(i+1), "yellow"))
+            print(colored("Round {} starting...".format(i + 1), "yellow"))
             self.request_questions()
             self.check_answers()
             self.submit_sheet()
             self.clear_sheet()
             time.sleep(self.interval_sec)
+        print(colored("Done!", 'green', attrs=['bold']))
+        print(colored("-" * 60, 'cyan'))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Following the CCP\'s Lead - Quiz Challenger')
     parser.add_argument('--phone_number', type=str, default="12345678910", help='Input your phone number.')
-    parser.add_argument('--interval_sec', type=int, default=0, help='Input the interval between two attempts.')
-    parser.add_argument('--rounds', type=int, default=1, help='Input how many rounds in sum you would like to pass.')
-    parser.add_argument("--daily-challenge", action='store_true', help='Use to do daily challenge.')
+    parser.add_argument('--interval_sec', type=int, default=18, help='Input the interval between two attempts.')
+    parser.add_argument('--rounds', type=int, default=99, help='Input how many rounds in sum you would like to pass.')
+    parser.add_argument("--daily_challenge", action='store_true', help='Use to do daily challenge.')
+    parser.add_argument("--time", type=str, default="17:30", help='Set up the time you expect to do quiz every day.')
     args = parser.parse_args()
 
     for attempt in range(3):
@@ -125,7 +130,15 @@ if __name__ == '__main__':
                           .format(args.phone_number, args.rounds, args.interval_sec), "green"))
             challenger = QuizChallenger(args.phone_number, args.interval_sec, args.rounds)
             print(colored("Quiz Challenger is starting...", "yellow"))
-            challenger.run()
+            if not args.daily_challenge:
+                print(colored("Quiz Challenger runs at {} every day".format(args.time), "yellow"))
+                # schedule.every(3).minutes.do(challenger.run)
+                schedule.every().day.at(args.time).do(challenger.run)
+                while True:
+                    schedule.run_pending()
+                    time.sleep(1)
+            else:
+                challenger.run()
             break
         else:
-            args.phone_number = input("Your phone number is illegal, please re-input({}):".format(3-attempt))
+            args.phone_number = input("Your phone number is illegal, please re-input({}):".format(3 - attempt))
