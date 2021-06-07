@@ -58,13 +58,13 @@ Scripts are written in Python3.6 and test with Raspbian
 
 4.  Detach the session and attach it when you need in the future
 
-   ```shell
-   # Detach the session
-   $ tmux detach
+    ```shell
+      # Detach the session
+      $ tmux detach
    
-   # Check the session name and attach it again
-   $ tmux ls
-   $ tmux attach -t [name of the session]
+      # Check the session name and attach it again
+      $ tmux ls
+      $ tmux attach -t [name of the session]
    ```
 
 ## Coda
