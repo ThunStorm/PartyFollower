@@ -81,7 +81,8 @@ class QuizChallenger():
             "token": self.token
         }
         print(colored("Waiting for submission...", "yellow"))
-        time.sleep(20 + random.randint(0, 15))
+        time.sleep(6)
+        # time.sleep(10 + random.randint(1, 3))
         try:
             receipt = self.session.post(url=POST_URL, headers=HEADERS, data=json.dumps(sheet))
             receipt_json = json.loads(receipt.text)
@@ -117,7 +118,7 @@ class QuizChallenger():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Following the CCP\'s Lead - Quiz Challenger')
     parser.add_argument('--phone_number', type=str, default="12345678910", help='Input your phone number.')
-    parser.add_argument('--interval_sec', type=int, default=18, help='Input the interval between two attempts.')
+    parser.add_argument('--interval_sec', type=int, default=0, help='Input the interval between two attempts.')
     parser.add_argument('--rounds', type=int, default=99, help='Input how many rounds in sum you would like to pass.')
     parser.add_argument("--daily_challenge", action='store_true', help='Use to do daily challenge.')
     parser.add_argument("--time", type=str, default="17:30", help='Set up the time you expect to do quiz every day.')

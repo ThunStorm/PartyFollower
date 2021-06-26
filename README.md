@@ -3,7 +3,9 @@ A lightweight problem auto-answering script for "Beijing Follows the Party" even
 
 ## Description
 
-The project aims to built a software to automatically answer questions in "Beijing Always Follows the Party" event.  
+The project aims to built a software to automatically answer questions in "Beijing Always Follows the Party" event.  Screenshot as follows:
+
+<img src="img/event.jpg" alt="PartyFollower" style="zoom:33%;" />
 
 It consists of two scripts `questions-scraper.py ` (used to scrape the question bank) and `quiz-challenger.py` (used to answer the quiz)
 
