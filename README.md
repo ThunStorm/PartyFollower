@@ -63,7 +63,7 @@ Scripts are written in Python3.6 and test with Raspbian
     ```shell
     # Detach the session
     $ tmux detach
-   
+      
     # Check the session name and attach it again
     $ tmux ls
     $ tmux attach -t [name of the session]
